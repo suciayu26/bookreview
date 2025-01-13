@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Books I’ve Read</title>
+  <form class="search-bar" action="/search" method="GET">
+    <input
+      type="text"
+      name="query"
+      placeholder="Search books..."
+      required
+    />
+    <button type="submit">Search</button>
+  </form>
+  
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="header">
+    <h1 class="header-title">Suci Lestari</h1>
+    <h2 class="header-subtitle">Books I’ve Read</h2>
+    <p class="header-description">
+      Here, I share short summaries of each book from my perspective. I love reading in my free time, mostly non-fiction, but I’ve also enjoyed some fiction along the way. I’ll regularly update this page as I finish more books, so feel free to check back often!
+    </p>
+
+  </header>
+
+  <!-- Book List Section -->
+  <main class="main-content">
+    <% if (books.length > 0) { %>
+      <% books.forEach(book => { %>
+        <article class="book">
+          <!-- Book Cover -->
+          <div class="book-cover-container">
+            <img src="<%= book.cover_url %>" alt="Cover of <%= book.title %>" class="book-cover">
+          </div>
+          
+          <!-- Book Details -->
+          <div class="book-details">
+            <h3 class="book-title"><%= book.title %></h3>
+            <p class="book-author"><strong>By:</strong> <%= book.author || "Unknown Author" %></p>
+            <p class="book-date"><strong>Date Read:</strong> <%= book.date_read ? book.date_read.toISOString().split('T')[0] : "Not specified" %></p>
+            <p class="book-rating"><strong>Rating:</strong> <%= book.rating ? book.rating + "/10" : "No rating yet" %></p>
+            <p class="book-notes"><%= book.notes || "No notes available for this book." %></p>
+
+            <div class="book-links">
+                <a href="<%= book.periplus_link || '#' %>" class="btn book-btn" target="_blank">Get Paper Book</a>
+                <a href="<%= book.amazon_kindle_link || '#' %>" class="btn book-btn" target="_blank">Get E-Book</a>
+              </div>
+          </div>
+
+          <!-- Edit/Delete Buttons -->
+          <div class="book-actions">
+            <form action="/books/<%= book.id %>/edit" method="GET">
+              <button type="submit" class="btn edit-btn">Edit</button>
+            </form>
+            <form action="/books/<%= book.id %>/delete" method="POST">
+              <input type="hidden" name="_method" value="DELETE">
+              <button type="submit" class="btn delete-btn">Delete</button>
+            </form>
+          </div>
+        </article>
+      <% }) %>
+    <% } else { %>
+      <p class="no-books-message">No books available. Start by adding a book!</p>
+    <% } %>
+  </main>
+
+  <!-- Add Book Form -->
+  <footer class="footer">
+    <h3>Add a New Book</h3>
+    <form action="/books" method="POST" class="add-book-form">
+      <input type="text" name="title" placeholder="Book Title" required>
+      <input type="text" name="author" placeholder="Author">
+      <input type="date" name="date_read" placeholder="Date Read">
+      <input type="number" name="rating" placeholder="Rating (1-10)" min="1" max="10">
+      <textarea name="notes" placeholder="Notes"></textarea>
+      <input type="url" name="periplus_link" placeholder="Periplus Link (Optional)">
+      <input type="url" name="amazon_kindle_link" placeholder="Amazon Kindle Link (Optional)">
+      <button type="submit" class="btn add-btn">Add Book</button>
+    </form>
+  </footer>
+
+  <div class="footer-copyright">
+    <p>2025 Suci Lestari. All rights reserved.</p>
+  </div>
+</body>
+</html>

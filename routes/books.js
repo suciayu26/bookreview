@@ -7,10 +7,10 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     try {
       const result = await pool.query("SELECT * FROM books ORDER BY rating DESC, id ASC");
-      res.render("index", { books: result.rows });
+      res.render("index", { books: result.rows, user: req.session.user });
     } catch (err) {
       console.error(err);
-      res.status(500).send("Server Error");
+      res.status(500).send("Error retrieving books.");
     }
   });
 
@@ -69,30 +69,33 @@ router.post("/books/:id/edit", async (req, res) => {
 
 // Add a new book
 router.post("/books", async (req, res) => {
+  if (!req.session.user) return res.redirect("/login");
+
     const { title, author, notes, date_read, rating, periplus_link, amazon_kindle_link } = req.body;
     const cover_url = `https://covers.openlibrary.org/b/title/${encodeURIComponent(title)}-M.jpg`;
-  
-    try {
-      await pool.query(
-        "INSERT INTO books (title, author, cover_url, notes, date_read, rating, periplus_link, amazon_kindle_link) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
-        [title, author, cover_url, notes, date_read, rating, periplus_link, amazon_kindle_link]
+
+  try {
+    await pool.query(
+      "INSERT INTO books (title, author, cover_url, notes, date_read, rating, periplus_link, amazon_kindle_link) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+      [title, author, cover_url, notes, date_read, rating, periplus_link, amazon_kindle_link]
       );
-      res.redirect("/");
+      res.redirect("/books");
     } catch (err) {
       console.error(err);
-      res.status(500).send("Server Error");
+      res.status(500).send("Error adding book.");
     }
   });
 
 // Delete a book
-router.post("/books/:id/delete", async (req, res) => {
+router.post("/:id/delete", async (req, res) => {
+  if (!req.session.user) return res.redirect("/login");
     const { id } = req.params;
     try {
       await pool.query("DELETE FROM books WHERE id = $1", [id]);
-      res.redirect("/");
+      res.redirect("/books");
     } catch (err) {
       console.error(err);
-      res.status(500).send("Server Error");
+      res.status(500).send("Error deleting book.");
     }
   });
 

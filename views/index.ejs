@@ -5,26 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/style.css">
   <title>Books I’ve Read</title>
+  
   <form class="search-bar" action="/search" method="GET">
-    <input
-      type="text"
-      name="query"
-      placeholder="Search books..."
-      required
-    />
+    <input type="text" name="query" placeholder="Search books..." required />
     <button type="submit">Search</button>
   </form>
-  
 </head>
+
 <body>
   <!-- Header Section -->
   <header class="header">
-    <h1 class="header-title">Suci Lestari</h1>
+    <h1 class="header-title">S' Library</h1>
     <h2 class="header-subtitle">Books I’ve Read</h2>
     <p class="header-description">
       Here, I share short summaries of each book from my perspective. I love reading in my free time, mostly non-fiction, but I’ve also enjoyed some fiction along the way. I’ll regularly update this page as I finish more books, so feel free to check back often!
-    </p>
+  </p>
+  
+  <p class="header-description">
+      Got a great book in mind? I’d love to hear your recommendations! Whether it’s an insightful non-fiction piece, a thrilling novel, or a book that changed your perspective, I’m always looking for new reads. Feel free to suggest a book by clicking the "Recommend a Book" button below. Your recommendations will help shape my reading list, and who knows? It might even get featured here with a personal review!
+  </p>
+  
 
+    <!-- Authentication Links -->
+    <div class="auth-links">
+      <% if (user) { %>
+        <p>Welcome, <%= user %>!</p>
+        <a href="/logout" class="btn logout-btn">Logout</a>
+      <% } else { %>
+        <a href="/login" class="btn login-btn"> Admin Login</a>
+      <% } %>
+    </div>
+
+    <!-- Move the Recommend Toggle Below the Login Button -->
+<p id="recommend-link" class="recommend-toggle">📖 Recommend a Book</p>
+
+<!-- Hidden Recommendation Form -->
+<section class="recommendation-section" id="recommend-form">
+    <h3>Recommend a Book</h3>
+    <p>Have a book you think I should read? Let me know below!</p>
+
+    <form action="/recommend" method="POST" class="recommendation-form">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="book_title">Book Title:</label>
+        <input type="text" id="book_title" name="book_title" required>
+
+        <label for="reason">Why do you recommend this book?</label>
+        <textarea id="reason" name="reason" required></textarea>
+
+        <button type="submit" class="btn submit-btn">Submit Recommendation</button>
+    </form>
+</section>
   </header>
 
   <!-- Book List Section -->
@@ -46,21 +78,31 @@
             <p class="book-notes"><%= book.notes || "No notes available for this book." %></p>
 
             <div class="book-links">
-                <a href="<%= book.periplus_link || '#' %>" class="btn book-btn" target="_blank">Get Paper Book</a>
-                <a href="<%= book.amazon_kindle_link || '#' %>" class="btn book-btn" target="_blank">Get E-Book</a>
-              </div>
+              <% if (book.periplus_link) { %>
+                <a href="<%= book.periplus_link || '#' %>" class="btn book-btn" target="_blank" onclick="checkPeriplusLink(event, '<%= book.periplus_link %>')">Get Paper Book</a>
+              <% } else { %>
+                <button class="btn book-btn disabled-btn" disabled>No Paper Book Link</button>
+              <% } %>
+              <% if (book.amazon_kindle_link) { %>
+                <a href="<%= book.amazon_kindle_link || '#' %>" class="btn book-btn" target="_blank" onclick="checkKindleLink(event, '<%= book.amazon_kindle_link %>')">Get E-Book</a>
+              <% } else { %>
+                <button class="btn book-btn disabled-btn" disabled>No E-Book Link</button>
+              <% } %>
+            </div>
           </div>
 
-          <!-- Edit/Delete Buttons -->
-          <div class="book-actions">
-            <form action="/books/<%= book.id %>/edit" method="GET">
-              <button type="submit" class="btn edit-btn">Edit</button>
-            </form>
-            <form action="/books/<%= book.id %>/delete" method="POST">
-              <input type="hidden" name="_method" value="DELETE">
-              <button type="submit" class="btn delete-btn">Delete</button>
-            </form>
-          </div>
+          <!-- Edit/Delete Buttons (Only for Logged-in Users) -->
+          <% if (user) { %>
+            <div class="book-actions">
+              <form action="/books/<%= book.id %>/edit" method="GET">
+                <button type="submit" class="btn edit-btn">Edit</button>
+              </form>
+              <form action="/books/<%= book.id %>/delete" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="btn delete-btn">Delete</button>
+              </form>
+            </div>
+          <% } %>
         </article>
       <% }) %>
     <% } else { %>
@@ -68,23 +110,78 @@
     <% } %>
   </main>
 
-  <!-- Add Book Form -->
+  <!-- Add Book Form (Only for Logged-in Users) -->
+  <% if (user) { %>
+    <footer class="footer">
+      <h3>Add a New Book</h3>
+      <form action="/books/add" method="POST" class="add-book-form">
+        <input type="text" name="title" placeholder="Book Title" required>
+        <input type="text" name="author" placeholder="Author">
+        <input type="date" name="date_read" placeholder="Date Read">
+        <input type="number" name="rating" placeholder="Rating (1-10)" min="1" max="10">
+        <textarea name="notes" placeholder="Notes"></textarea>
+        <button type="submit" class="btn add-btn">Add Book</button>
+      </form>
+    </footer>
+  <% } %>
   <footer class="footer">
-    <h3>Add a New Book</h3>
-    <form action="/books" method="POST" class="add-book-form">
-      <input type="text" name="title" placeholder="Book Title" required>
-      <input type="text" name="author" placeholder="Author">
-      <input type="date" name="date_read" placeholder="Date Read">
-      <input type="number" name="rating" placeholder="Rating (1-10)" min="1" max="10">
-      <textarea name="notes" placeholder="Notes"></textarea>
-      <input type="url" name="periplus_link" placeholder="Periplus Link (Optional)">
-      <input type="url" name="amazon_kindle_link" placeholder="Amazon Kindle Link (Optional)">
-      <button type="submit" class="btn add-btn">Add Book</button>
-    </form>
+    <p>© <span id="currentYear"></span> SAL. All rights reserved.</p>
   </footer>
 
-  <div class="footer-copyright">
-    <p>2025 Suci Lestari. All rights reserved.</p>
-  </div>
+<!-- JavaScript to Update Year Dynamically -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("currentYear").textContent = new Date().getFullYear();
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const recommendLink = document.getElementById("recommend-link");
+        const recommendForm = document.getElementById("recommend-form");
+
+        recommendLink.addEventListener("click", function () {
+            // Toggle visibility smoothly
+            if (recommendForm.style.display === "none" || recommendForm.style.display === "") {
+                recommendForm.style.display = "block";
+                recommendForm.style.opacity = 0;
+                setTimeout(() => { recommendForm.style.opacity = 1; }, 100); // Smooth fade-in effect
+            } else {
+                recommendForm.style.opacity = 0;
+                setTimeout(() => { recommendForm.style.display = "none"; }, 300); // Smooth fade-out effect
+            }
+        });
+    });
+
+    function checkPeriplusLink(event, url) {
+    event.preventDefault(); // Stop the default action until we verify the link
+
+    fetch(url, { method: 'HEAD' }) // Check if the link is reachable
+        .then(response => {
+            if (response.ok) {
+                window.open(url, '_blank'); // Open link if valid
+            } else {
+                alert("Oops! The Periplus link is not available."); // Show alert if broken
+            }
+        })
+        .catch(() => {
+            alert("Oops! The Periplus link is not available."); // Handle fetch errors
+        });
+    }
+
+    function checkKindleLink(event, url) {
+    event.preventDefault(); // Stop the default action until we verify the link
+
+    fetch(url, { method: 'HEAD' }) // Check if the link is reachable
+        .then(response => {
+            if (response.ok) {
+                window.open(url, '_blank'); // Open link if valid
+            } else {
+                alert("Oops! The Kindle link is not available."); // Show alert if broken
+            }
+        })
+        .catch(() => {
+            alert("Oops! The Kindle link is not available."); // Handle fetch errors
+        });
+    }
+  </script>
 </body>
 </html>

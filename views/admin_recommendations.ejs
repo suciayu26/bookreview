@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Book Recommendations</title>
+</head>
+<body>
+    <h2>Book Recommendations</h2>
+
+    <% if (recommendations.length > 0) { %>
+        <table border="1">
+            <tr>
+                <th>Name</th>
+                <th>Book Title</th>
+                <th>Reason</th>
+                <th>Submitted At</th>
+            </tr>
+            <% recommendations.forEach(rec => { %>
+                <tr>
+                    <td><%= rec.name %></td>
+                    <td><%= rec.book_title %></td>
+                    <td><%= rec.reason %></td>
+                    <td><%= rec.submitted_at.toISOString().split('T')[0] %></td>
+                </tr>
+            <% }) %>
+        </table>
+    <% } else { %>
+        <p>No recommendations yet.</p>
+    <% } %>
+
+    <a href="/books">Back to Books</a>
+</body>
+</html>

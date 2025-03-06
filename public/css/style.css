@@ -182,10 +182,264 @@ body {
     margin-bottom: 20px;
   }
   
-  .footer-copyright {
+  .footer {
     text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-  }
-  
-  
+    padding: 15px;
+    background-color: #222;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.recommendation-section {
+  background-color: #222;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.recommendation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recommendation-form input,
+.recommendation-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #111;
+  color: white;
+}
+
+.submit-btn {
+  padding: 10px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: darkgreen;
+}
+
+.top-right-container {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: flex-end; /* Align to right side */
+  gap: 10px; /* Space between search and form */
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+/* Move recommend toggle to center */
+.recommend-toggle {
+  cursor: pointer;
+  font-weight: bold;
+  color: green;
+  text-align: center;
+  display: block; /* Ensures it takes full width */
+  margin-top: 10px; /* Adds space below login button */
+}
+
+.recommend-toggle:hover {
+  text-decoration: underline;
+}
+
+/* Ensure the form is centered */
+.recommendation-section {
+  display: none; /* Initially hidden */
+  background-color: #222;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  max-width: 350px;
+  text-align: center;
+  margin: 20px auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Form fields */
+.recommendation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Adjust spacing */
+  align-items: center; /* Center inputs */
+}
+
+.recommendation-form label {
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+/* Reduce input width */
+.recommendation-form input,
+.recommendation-form textarea {
+  width: 90%; /* Make inputs slightly smaller */
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #111;
+  color: white;
+  font-size: 14px;
+}
+
+/* Reduce text area height */
+.recommendation-form textarea {
+  height: 80px;
+  resize: none; /* Disable resize */
+}
+
+/* Style submit button */
+.submit-btn {
+  width: 90%;
+  padding: 10px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.submit-btn:hover {
+  background-color: darkgreen;
+}
+
+/* Styling for Thanks Page */
+.thanks-page {
+  background-color: #111; /* Dark background */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.thanks-container {
+  background-color: #222;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 90%;
+}
+
+.thanks-container h2 {
+  font-size: 24px;
+  color: #4CAF50; /* Green highlight */
+}
+
+.thanks-container p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+/* Back to Books Button */
+.back-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: green;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background-color: darkgreen;
+}
+
+/* Login Page Styling */
+.login-page {
+  background-color: #111; /* Dark background */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+/* Login Form Container */
+.login-container {
+  background-color: #222;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  max-width: 350px;
+  width: 90%;
+}
+
+/* Form Fields */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-form label {
+  text-align: left;
+  font-weight: bold;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #111;
+  color: white;
+}
+
+/* Login Button */
+.login-btn {
+  width: 100px;
+  padding: 10px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.login-btn:hover {
+  background-color: darkgreen;
+}
+
+/* Error Message */
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Back to Books Link */
+.back-to-books {
+  margin-top: 15px;
+}
+
+.back-to-books a {
+  color: lightgreen;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-to-books a:hover {
+  text-decoration: underline;
+}

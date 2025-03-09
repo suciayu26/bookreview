@@ -79,16 +79,28 @@
 
             <div class="book-links">
               <% if (book.periplus_link) { %>
-                <a href="<%= book.periplus_link || '#' %>" class="btn book-btn" target="_blank" onclick="checkPeriplusLink(event, '<%= book.periplus_link %>')">Get Paper Book</a>
+                  <a href="<%= book.periplus_link %>" 
+                     class="btn book-btn" 
+                     target="_blank" 
+                     onclick="checkLink(event, '<%= book.periplus_link %>', 'Periplus')">
+                     Get Paper Book
+                  </a>
               <% } else { %>
-                <button class="btn book-btn disabled-btn" disabled>No Paper Book Link</button>
+                  <button class="btn book-btn disabled-btn" disabled>No Paper Book Link</button>
               <% } %>
+          
               <% if (book.amazon_kindle_link) { %>
-                <a href="<%= book.amazon_kindle_link || '#' %>" class="btn book-btn" target="_blank" onclick="checkKindleLink(event, '<%= book.amazon_kindle_link %>')">Get E-Book</a>
+                  <a href="<%= book.amazon_kindle_link %>" 
+                     class="btn book-btn" 
+                     target="_blank" 
+                     onclick="checkLink(event, '<%= book.amazon_kindle_link %>', 'Kindle')">
+                     Get E-Book
+                  </a>
               <% } else { %>
-                <button class="btn book-btn disabled-btn" disabled>No E-Book Link</button>
+                  <button class="btn book-btn disabled-btn" disabled>No E-Book Link</button>
               <% } %>
             </div>
+          
           </div>
 
           <!-- Edit/Delete Buttons (Only for Logged-in Users) -->
@@ -167,21 +179,17 @@
         });
     }
 
-    function checkKindleLink(event, url) {
-    event.preventDefault(); // Stop the default action until we verify the link
-
-    fetch(url, { method: 'HEAD' }) // Check if the link is reachable
-        .then(response => {
-            if (response.ok) {
-                window.open(url, '_blank'); // Open link if valid
-            } else {
-                alert("Oops! The Kindle link is not available."); // Show alert if broken
-            }
-        })
-        .catch(() => {
-            alert("Oops! The Kindle link is not available."); // Handle fetch errors
-        });
+    function checkLink(event, url, type) { 
+    if (!url || url === "#" || url.trim() === "") {
+        alert(`Oops! The ${type} link is not available.`);
+        event.preventDefault();  // Prevent navigation
+        return false;
     }
+
+    window.open(url, '_blank'); // Open the link in a new tab
+    return true;
+}
+
   </script>
 </body>
 </html>

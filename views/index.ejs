@@ -15,7 +15,7 @@
 <body>
   <!-- Header Section -->
   <header class="header">
-    <h1 class="header-title">S' Library</h1>
+    <h1 class="header-title">SM Library</h1>
     <h2 class="header-subtitle">Books I’ve Read</h2>
     <p class="header-description">
       Here, I share short summaries of each book from my perspective. I love reading in my free time, mostly non-fiction, but I’ve also enjoyed some fiction along the way. I’ll regularly update this page as I finish more books, so feel free to check back often!
@@ -100,7 +100,12 @@
                   <button class="btn book-btn disabled-btn" disabled>No E-Book Link</button>
               <% } %>
             </div>
-          
+              <!-- Back to Library Button (Only Shows if Search is Active) -->
+            <% if (typeof searchQuery !== "undefined" && searchQuery.trim() !== "") { %>
+              <div class="back-to-library">
+                <a href="/" class="btn back-btn">🔙 Back to Library</a>
+              </div>
+            <% } %>
           </div>
 
           <!-- Edit/Delete Buttons (Only for Logged-in Users) -->

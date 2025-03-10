@@ -51,13 +51,13 @@ const storeReturnUrl = (req, res, next) => {
 };
 
 app.get("/search", async (req, res) => {
-  const searchQuery = req.query.query; // Get search input
+  const searchQuery = req.query.query || ""; // Ensure searchQuery is defined
   try {
     const result = await pool.query(
       "SELECT * FROM books WHERE title ILIKE $1 OR author ILIKE $1",
-      [`%${searchQuery}%`]
+      ["%" + searchQuery + "%"]
     );
-    res.render("index", { books: result.rows, user: req.session.user });
+    res.render("index", { books: result.rows, user: req.session.user, searchQuery });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error performing search.");

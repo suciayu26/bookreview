@@ -59,6 +59,26 @@ body {
   background-color: #218838;
 }
 
+.back-to-library {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.back-btn {
+  display: inline-block;
+  background-color: #ff6600;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #e65c00;
+}
+
   
   /* Main Content */
   .main-content {
@@ -83,6 +103,13 @@ body {
   
   .book-details {
     flex-grow: 1;
+  }
+
+  .book-details p {
+    text-align: justify;  /* Justifies text for cleaner reading */
+    line-height: 1.7;  /* Improves spacing between lines */
+    font-size: 16px;  /* Adjusts size for better readability */
+    margin-bottom: 12px;  /* Adds spacing after paragraphs */
   }
   
   .book-title {
@@ -109,6 +136,10 @@ body {
   
   .book-notes {
     margin: 10px 0 0 0;
+    color: #d1d1d1;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 5px;
   }
 
   .book-links {
@@ -442,4 +473,21 @@ body {
 
 .back-to-books a:hover {
   text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+  .book-details p {
+      font-size: 14px;  /* Slightly smaller text for compact screens */
+      line-height: 1.6;  /* Adjusts line spacing for mobile */
+      padding: 0 10px;  /* Ensures text does not stick to screen edges */
+  }
+}
+
+@media (max-width: 768px) {
+  .header-description {
+      font-size: 14px; /* Slightly smaller text for mobile */
+      line-height: 1.7; /* Adjusted spacing */
+      padding: 10px; /* Ensures padding remains balanced */
+  }
 }

@@ -11,7 +11,7 @@ dotenv.config();
 
 const { Pool } = pkg;
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000; 
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,6 +33,9 @@ const pool = new Pool({
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
   port: 5432,
+ssl: {
+rejectUnauthorized: false
+}
 });
 
 // Simulated User (Can be replaced with DB authentication later)
@@ -205,8 +208,8 @@ app.get("/", (req, res) => {
 });
 
 // Start Server
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+app.listen(port,'0.0.0.0', () => {
+  console.log(`Server is running on port ${port}`);
 });
 
 export default pool;

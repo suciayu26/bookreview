@@ -88,7 +88,7 @@ app.post("/login", (req, res) => {
   res.render("login", { error: "Invalid username or password" });
 });
 
-// Logout Route
+
 app.get("/logout", (req, res) => {
   req.session.destroy(() => {
     res.redirect("/books");
@@ -114,7 +114,7 @@ app.post("/recommend", async (req, res) => {
           "INSERT INTO recommendations (name, book_title, reason) VALUES ($1, $2, $3)",
           [name, book_title, reason]
       );
-      res.redirect("/thanks"); // Redirect to a thank-you page
+      res.redirect("/thanks"); 
   } catch (err) {
       console.error(err);
       res.status(500).send("Error submitting recommendation.");
